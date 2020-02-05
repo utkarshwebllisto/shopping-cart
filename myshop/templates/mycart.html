@@ -1,0 +1,28 @@
+{% extends 'header.html' %}
+{% block content %}
+{% csrf_token %}
+<tr>
+   {% for items in cart_obj %}
+   <!-- 
+      <form method = 'POST' action =/orders/?id={{items.id}}> -->
+   <form method = 'POST' action =/order_now/>
+      <td>{{items.pid.pname}}</td>
+      <br>
+      <td><img src="{{ items.pid.image.url }}"></td>
+      <br>
+      price:      
+      <td>{{items.pid.price}}</td>
+      <br>
+      quantity:   
+      <td>{{items.quantity}}</td>
+      <br>
+      total price 
+      <td>{{total_price}}</td>
+      in rupess  <br>         
+      <td><a href=/removed/?id={{items.id}}>Remove cart</a></td>
+      <br><br>
+      {% endfor %}
+      <td><button  align= centre type="submit"> order now</button>
+</tr>
+</form>
+{% endblock %}

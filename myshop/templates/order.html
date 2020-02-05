@@ -1,0 +1,42 @@
+{% extends 'header.html' %}
+{% block content %}
+{% csrf_token %}
+<tr>
+   {% for items in cart_obj %}
+   <!-- 
+      <form method = 'POST' action =/orders/?id={{items.id}}> -->
+   <form method = 'POST' action =/orders/>
+      <td>{{items.pid.pname}}</td>
+      <br>
+      <td><img src="{{ items.pid.image.url }}"></td>
+      <br>
+      price:      
+      <td>{{items.pid.price}}</td>
+      <br>
+      quantity:   
+      <td>{{items.quantity}}</td>
+      <br>
+      total price 
+      <td>{{total_price}}</td>
+      in rupess  <br>         
+      <td><a href=/removed/?id={{items.id}}>Remove cart</a></td>
+      <br><br>
+      {% endfor %}
+      <h1>fill your detail here </h1>
+      <label class="control-label"></label>
+      <div class="controls">
+         <input type="text" id="" name="id" value={{obj_id}} hidden placeholder="" class="input-xlarge">
+      </div>
+      <label class="control-label"  for="phone">phone</label>
+      <div class="controls">
+         <input type="text" id="phone" name="phone" placeholder="" class="input-xlarge" required="">
+      </div>
+      <label class="control-label"  for="Address">Address</label>
+      <div class="controls">
+         <input type="text" id="Address" name="Address" placeholder="" class="input-xlarge" required="">
+      </div>
+      <br>
+      <button type= submit>place order</button>
+</tr>
+</form>
+{% endblock %}

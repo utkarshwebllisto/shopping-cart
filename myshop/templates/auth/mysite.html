@@ -1,0 +1,19 @@
+{% extends 'header.html' %}
+{% block content %}
+<p>Login: <b>{{user.username}}</p>
+<p>Email: <b>{{user.email}}</p>
+{% for items in product_obj %}
+{% csrf_token %}
+<form method="POST" action=/cart/?id={{items.id}}&quantity=quantity{{items.id}}>
+   <tr>
+      <th><img src="{{ items.image.url }}"></th>
+      <th>{{ items.pname }}</th>
+      <th>price: {{ items.price }}</th>
+      {% csrf_token %}
+      <th> quantity:<input type='Integer' name='quantity' id=quantity{{items.id}} ></th>
+      <th><button type='submit'>Add cart</button></th>
+   </tr>
+   <br><br>
+</form>
+{% endfor %}
+{% endblock %}

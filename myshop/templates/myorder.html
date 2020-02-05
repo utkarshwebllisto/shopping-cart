@@ -1,0 +1,29 @@
+{% extends 'header.html' %}
+<p>Login: <b>{{user.username}}</p>
+<p>Email: <b>{{user.email}}</p>
+{% block content %}
+{% for items in myorder%}
+<tr>
+   thanks {{ items.username }}</th> your order is confirmed<br>
+   <th><img src="{{ items.cart.image.url }}"></th>
+   <br>
+   <th>{{ items.cart.pname }}</th>
+   <br>
+   price:
+   <th>{{ items.cart.price }}</th>
+   <br>
+   total quantity:
+   <th>{{ items.quantity }}</th>
+   <br>
+   total price: 
+   <th>{{ items.grand_total }}</th>
+   <br>
+   phone:
+   <th>{{ items.user_phone }}</th>
+   <br>
+   Address:
+   <th>{{ items.user_address }}</th>
+   <br><br><br>
+</tr>
+{% endfor %}
+{% endblock %}
