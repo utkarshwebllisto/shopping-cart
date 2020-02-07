@@ -14,7 +14,7 @@ from django.shortcuts import (render,
     HttpResponse
 )
 from shop.celery import debug_task,app
-from myshop.forms import (Productform,
+from myshop.serializers import (Productform,
     Addcartform,
     Orderform,
     Order_without_cartform,
@@ -25,6 +25,7 @@ from myshop.models import (Product,
     Order_without_cart
 )
 
+from rest_framework import viewsets
 
 def home(request):
     product_obj = Product.objects.all()
@@ -271,3 +272,6 @@ def removed(request):
     cart_obj.delete()
     return HttpResponseRedirect(reverse('success'))
 
+class data(viewsets.ModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class = Productform
