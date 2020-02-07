@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'rental',
+    'rest_framework',
     'myshop',
     'allauth',
     'allauth.account',
@@ -80,10 +82,10 @@ WSGI_APPLICATION = 'shop.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'shopping',
-        'USER': 'myuser',
-        'PASSWORD': '1234',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'shop',
+        'USER': 'newuser',
+        'PASSWORD': 'rathore1999',
         'HOST': 'localhost',
         'PORT': '',
     }

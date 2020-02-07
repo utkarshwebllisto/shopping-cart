@@ -39,15 +39,19 @@ def home1(request):
 def user_login(request):
     context = {}
     if (request.method) == "POST":
+      try:
+        username = request.POST['new_user']
+        password = request.POST['new_user_password']
+      except:
         username = request.POST['username']
         password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if user:
-            login(request, user)
-            return HttpResponseRedirect(reverse('success'))
-        else:
-            context['error'] = 'provide correct password and username'
-            return render(request, "auth/login.html", context)
+      user = authenticate(request, username=username, password=password)
+      if user:
+           login(request, user)
+           return HttpResponseRedirect(reverse('success'))
+      else:
+           context['error'] = 'provide correct password and username'
+           return render(request, "auth/login.html", context)
     else:
         return render(request, "auth/login.html", context)
 
@@ -65,7 +69,7 @@ def sign_up(request):
                                           )
         else:
           return HttpResponse("password didn't match")     
-    return HttpResponseRedirect(reverse('success'))
+    return render(request, "auth/login.html", {'username' : username, 'password' : password})
 
 
 def success(request):
