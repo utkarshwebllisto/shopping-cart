@@ -14,10 +14,11 @@ from django.shortcuts import (render,
     HttpResponse
 )
 from shop.celery import debug_task,app
-from myshop.serializers import (Productform,
-    Addcartform,
-    Orderform,
-    Order_without_cartform,
+from myshop.serializers import (ProductSerializer,
+    AddcartSerializer,
+    OrderSerializer,
+    Order_without_cartSerializer,
+    UserSerializer
 )
 from myshop.models import (Product,
     Addcart,
@@ -40,17 +41,13 @@ def home1(request):
 def user_login(request):
     context = {}
     if (request.method) == "POST":
-      try:
-        username = request.POST['new_user']
-        password = request.POST['new_user_password']
-      except:
         username = request.POST['username']
         password = request.POST['password']
-      user = authenticate(request, username=username, password=password)
-      if user:
+        user = authenticate(request, username=username, password=password)
+        if user:
            login(request, user)
            return HttpResponseRedirect(reverse('success'))
-      else:
+        else:
            context['error'] = 'provide correct password and username'
            return render(request, "auth/login.html", context)
     else:
@@ -59,18 +56,21 @@ def user_login(request):
 
 def sign_up(request):
     if request.method == "POST":
-        username = request.POST['username']
-        email = request.POST['email']
-        password = request.POST['password']
+        user_name = request.POST['username']
+        user_email = request.POST['email']
+        user_password = request.POST['password']
         confirm_password =  request.POST['confirm_password']
-        if password == confirm_password:
-            user = User.objects.create_user(username=username,
-                                            email=email,
-                                            password=password,
+        if user_password == confirm_password:
+            user = User.objects.create_user(username=user_name,
+                                            email=user_email,
+                                            password=user_password,
                                           )
-        else:
-          return HttpResponse("password didn't match")     
-    return render(request, "auth/login.html", {'username' : username, 'password' : password})
+        user = authenticate(request, username=user_name, password=user_password)
+        if user:
+           login(request, user)
+           return HttpResponseRedirect(reverse('success'))
+    else:
+        return render(request,'auth/signup.html')
 
 
 def success(request):
@@ -84,11 +84,7 @@ def success(request):
 
 def user_logout(request):
     logout(request)
-    return HttpResponseRedirect(reverse('home1'))
-
-
-def sign_up_page(request):
-    return render(request,'auth/signup.html')
+    return HttpResponseRedirect(reverse('home1'))  
 
 
 @app.task
@@ -254,8 +250,6 @@ def place_orders(request):
                                             user_address=Address
                                             )
         order_item.save()
-   # delete_cart = Addcart.objects.all()
-   # delete_cart.delete()
     return render(request, 'placed.html', {'username':user_name})
 
 
@@ -272,6 +266,6 @@ def removed(request):
     cart_obj.delete()
     return HttpResponseRedirect(reverse('success'))
 
-class data(viewsets.ModelViewSet):
-    queryset = Product.objects.all()
-    serializer_class = Productform
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer

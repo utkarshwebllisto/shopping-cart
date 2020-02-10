@@ -8,7 +8,7 @@ class FriendViewset(viewsets.ModelViewSet):
     queryset = models.Friend.objects.all()
     serializer_class = FriendSerializer
 
-
+    
 class BelongingViewset(viewsets.ModelViewSet):
     queryset = models.Belonging.objects.all()
     serializer_class = BelongingSerializer
