@@ -16,12 +16,28 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path,include
+from django.conf.urls import  url
+from django.contrib import admin
 
 urlpatterns = [
-    path('myshop', include('myshop.urls')),
-    path('', include('rental.urls')),
+    path('', include('myshop.urls')),
+    path('account/', include('social_django.urls', namespace='social')),
     path('accounts/', include('allauth.urls')),
     path('admin/', admin.site.urls),
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 
+# from django.contrib import admin
+# from django.urls import path,include
+# from django.conf.urls import  url
+# from django.contrib import admin
+# from django.conf import settings
+# from django.conf.urls.static import static
+# urlpatterns = [
+    
+#     path('', include('home.urls')),
+#     path('account/', include('social_django.urls')),
+#     path('account/', include('django.contrib.auth.urls')),
+
+# #    path('account/', include('social.apps.django_app.urls', namespace='social')),
+#     path('admin/', admin.site.urls),

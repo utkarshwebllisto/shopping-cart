@@ -31,10 +31,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'rental',
-    'rest_framework',
     'myshop',
     'allauth',
+    'social_django',
     'allauth.account',
     'django.contrib.sites',
     'allauth.socialaccount',
@@ -45,6 +44,27 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
+
+CONTEXT_PROCESSORS: [
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
+            ]
+           
+SOCIAL_AUTH_PIPELINE = (
+    'social.pipeline.social_auth.social_details',
+    'social.pipeline.social_auth.social_uid',
+    'social.pipeline.social_auth.auth_allowed',
+    'social.pipeline.social_auth.social_user',
+    'social.pipeline.user.get_username',
+    'social.pipeline.user.create_user',
+    'social.pipeline.social_auth.associate_user',
+    'social.pipeline.debug.debug',
+    'social.pipeline.social_auth.load_extra_data',
+    'social.pipeline.user.user_details',
+    'social.pipeline.debug.debug',
+)
 
 MIDDLEWARE = [
      'django.middleware.security.SecurityMiddleware',
@@ -136,14 +156,29 @@ STATICFILES_DIRS = [
 ]
 
 # Celery application definition
-CELERY_BROKER_URL = 'redis://localhost:6379'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379'
-CELERY_ACCEPT_CONTENT = ['application/json']
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TASK_SERIALIZER = 'json'
+SOCIAL_AUTH_GOOGLE_OAUTH2_IGNORE_DEFAULT_SCOPE = True
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
+'https://www.googleapis.com/auth/userinfo.email',
+'https://www.googleapis.com/auth/userinfo.profile'
+]
+# Google+ SignIn (google-plus)
+SOCIAL_AUTH_GOOGLE_PLUS_IGNORE_DEFAULT_SCOPE = True
+SOCIAL_AUTH_GOOGLE_PLUS_SCOPE = [
+'https://www.googleapis.com/auth/plus.login',
+'https://www.googleapis.com/auth/userinfo.email',
+'https://www.googleapis.com/auth/userinfo.profile'
+]
+LOGIN_URL = '/account/login/'
+LOGOUT_REDIRECT_URL =  '/'
 
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/3.0/howto/static-files/
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '264910153938-t8t406saojs0p8miagl894h7juu4vkuk.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET= 'unpZl8YhNDt6kfHkPp_H8vtf'
+STATIC_URL = '/static/'
 
 SITE_ID = 1
+
 
 
 LOGIN_REDIRECT_URL = '/'

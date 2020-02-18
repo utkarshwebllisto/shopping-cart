@@ -13,20 +13,26 @@ from django.shortcuts import (render,
     HttpResponseRedirect,
     HttpResponse
 )
-from shop.celery import debug_task,app
-from myshop.serializers import (ProductSerializer,
-    AddcartSerializer,
-    OrderSerializer,
-    Order_without_cartSerializer,
-    UserSerializer
-)
+# from shop.celery import debug_task,app
+# from myshop.serializers import (ProductSerializer,
+#     AddcartSerializer,
+#     OrderSerializer,
+#     Order_without_cartSerializer,
+#     UserSerializer
+# )
 from myshop.models import (Product,
     Addcart,
     Order,
     Order_without_cart
 )
 
-from rest_framework import viewsets
+from django.db import transaction
+from .models import Profile
+from .forms import UserForm,ProfileForm
+
+def Home(request):
+    return render(request, 'home.html')
+
 
 def home(request):
     product_obj = Product.objects.all()
@@ -52,7 +58,6 @@ def user_login(request):
            return render(request, "auth/login.html", context)
     else:
         return render(request, "auth/login.html", context)
-
 
 def sign_up(request):
     if request.method == "POST":
@@ -87,7 +92,7 @@ def user_logout(request):
     return HttpResponseRedirect(reverse('home1'))  
 
 
-@app.task
+
 @login_required
 def cart(request):
      if request.method == 'POST':
@@ -266,6 +271,3 @@ def removed(request):
     cart_obj.delete()
     return HttpResponseRedirect(reverse('success'))
 
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
