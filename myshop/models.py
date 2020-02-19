@@ -22,6 +22,7 @@ def create_user_profile(sender, instance, created, **kwargs):
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
 
+
 class Product(models.Model):
     pname = models.CharField(max_length = 100)
     image = models.ImageField()

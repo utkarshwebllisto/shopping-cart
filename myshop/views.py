@@ -30,52 +30,18 @@ from django.db import transaction
 from .models import Profile
 from .forms import UserForm,ProfileForm
 
-def Home(request):
-    return render(request, 'home.html')
+
 
 
 def home(request):
     product_obj = Product.objects.all()
-    return render(request,'home.html',{"product_obj": product_obj})
+    return render(request,'account/mysite.html',{"product_obj": product_obj})
 
 
 def home1(request):
     product_obj = Product.objects.all()
-    return render(request,'home.html',{"product_obj": product_obj})
+    return render(request,'account/mysite.html',{"product_obj": product_obj})
 
-
-def user_login(request):
-    context = {}
-    if (request.method) == "POST":
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if user:
-           login(request, user)
-           return HttpResponseRedirect(reverse('success'))
-        else:
-           context['error'] = 'provide correct password and username'
-           return render(request, "auth/login.html", context)
-    else:
-        return render(request, "auth/login.html", context)
-
-def sign_up(request):
-    if request.method == "POST":
-        user_name = request.POST['username']
-        user_email = request.POST['email']
-        user_password = request.POST['password']
-        confirm_password =  request.POST['confirm_password']
-        if user_password == confirm_password:
-            user = User.objects.create_user(username=user_name,
-                                            email=user_email,
-                                            password=user_password,
-                                          )
-        user = authenticate(request, username=user_name, password=user_password)
-        if user:
-           login(request, user)
-           return HttpResponseRedirect(reverse('success'))
-    else:
-        return render(request,'auth/signup.html')
 
 
 def success(request):
@@ -83,13 +49,13 @@ def success(request):
     context['user'] = request.user
     user = request.user.username
     product_obj = Product.objects.all()
-    return render(request, "auth/mysite.html", 
+    return render(request, "account/mysite.html", 
                   {"product_obj": product_obj})
 
 
-def user_logout(request):
-    logout(request)
-    return HttpResponseRedirect(reverse('home1'))  
+# def user_logout(request):
+#     logout(request)
+#     return HttpResponseRedirect(reverse('home1'))  
 
 
 
@@ -108,7 +74,7 @@ def cart(request):
          cart = Addcart.objects.create(pid=product_obj,
                                        quantity=quantity,
                                        owner=user_obj)
-     print(debug_task.delay())
+     
      return HttpResponseRedirect(reverse('show'))
 
 

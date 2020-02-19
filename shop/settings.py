@@ -44,6 +44,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+AUTHENTICATION_BACKENDS = (
+ 'social_core.backends.open_id.OpenIdAuth',
+ 'social_core.backends.google.GoogleOpenId',
+ 'social_core.backends.google.GoogleOAuth2',
+ 'django.contrib.auth.backends.ModelBackend',
+)
 
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
@@ -102,15 +108,10 @@ WSGI_APPLICATION = 'shop.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'shop',
-        'USER': 'newuser',
-        'PASSWORD': 'rathore1999',
-        'HOST': 'localhost',
-        'PORT': '',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 
 # Password validation
@@ -168,18 +169,16 @@ SOCIAL_AUTH_GOOGLE_PLUS_SCOPE = [
 'https://www.googleapis.com/auth/userinfo.email',
 'https://www.googleapis.com/auth/userinfo.profile'
 ]
-LOGIN_URL = '/account/login/'
+LOGIN_REDIRECT_URL = '/home1/'
+SIGNUP_REDIRECT_URL = '/home1/'
 LOGOUT_REDIRECT_URL =  '/'
-
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '264910153938-t8t406saojs0p8miagl894h7juu4vkuk.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET= 'unpZl8YhNDt6kfHkPp_H8vtf'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '435195554028-epve0ddj066q2lig8d2bu8448rdo9bj1.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET= 'ztdmp9wPJvQeTAY7Nh1PXVtM'
 STATIC_URL = '/static/'
 
 SITE_ID = 1
 
 
-
-LOGIN_REDIRECT_URL = '/'
-SIGN_UP_REDIRECT_URL = '/'
